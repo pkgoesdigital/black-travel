@@ -1,0 +1,160 @@
+{% comment %}
+** Newsletter - dynamic **
+- Draggable section
+{% endcomment %}
+
+
+{%- assign object = section -%}
+{%- assign blocks = section.blocks -%}
+
+
+{% comment %} Content settings {% endcomment %}
+{%- assign image = object.settings.image -%}
+{%- assign text = object.settings.text -%}
+{%- assign title = object.settings.title -%}
+{%- assign button_label = object.settings.button_label -%}
+{%- assign button_link = object.settings.button_link -%}
+{% comment %} End content settings {% endcomment %}
+
+<section class="section">
+  <div class="container is-align-center text-align-{{ object.settings.text_alignment }}">
+    {% capture image_layout %}
+      <div class="image-with-text__image-column one-half column medium-down--one-whole {% if object.settings.layout == 'left' %}animate_left{% else %}animate_right{% endif %}">
+        
+        <a {% if button_link != blank %}href="{{ button_link }}"{% endif %} title="{{ title | escape }}">
+          {% if image != blank %}
+            {% render 'image-element',
+                    image: image,
+                    alt: image.alt
+            %}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </a>
+      </div>
+    <h1 class="faq-title center is-hidden-desktop-only is-hidden-medium-only">
+          {{ page.title }}
+        </h1>
+    {% endcapture %}
+
+    {% if object.settings.layout == 'left' %}
+      {{ image_layout }}
+    {% endif %}
+
+    <div class="faq_questions image-with-text__text-column one-half column medium-down--one-whole">
+      <div class=" faq image-with-text__wrapper">
+        <h1 class="center is-hidden-mobile-only ">
+          {{ page.title }}
+        </h1>
+        {{ page.content }}
+      </div>
+    </div>
+
+    {% if object.settings.layout == 'right' %}
+      {{ image_layout }}
+    {% endif %}
+  </div>
+</section>
+
+<style> 
+  .accordion dt {
+    justify-content: space-between;
+    background: {{object.settings.question_background_color}} !important;
+    color: {{object.settings.question_font_color}} !important;
+    padding: 6px;
+    cursor: pointer;
+    font-weight: 300;
+}
+  dt.faq_question_link a {
+    color: {{object.settings.question_font_color}} !important;
+  }
+  .image-element__wrap {
+    max-width:100% !important;
+}
+  .image-with-text__wrapper {
+    padding: 0px 40px 40px 40px;
+}
+</style>
+
+
+{% schema %}
+  {
+    "name": "FAQ Questions",
+    "class": "shopify-section--faq-questions",
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1600 x 1000px recommended"
+      },
+      {
+        "type": "richtext",
+        "id": "page_richtext",
+        "label": "Text"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Image position",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+       "type": "color",
+       "id": "question_background_color",
+       "label": "Question Background color"
+      },
+      {
+       "type": "color",
+       "id": "question_font_color",
+       "label": "Question Background color"
+      }
+    ],
+    "blocks": [
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Title"
+        }
+      ]
+    },
+    {
+      "name": "Frequently asked question",
+      "type": "Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+    "presets": [{
+      "name": "FAQs",
+      "category": "Promotional",
+      "settings": {
+      }
+    }]
+  }
+{% endschema %}

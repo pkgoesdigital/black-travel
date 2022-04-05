@@ -1,0 +1,93 @@
+{%if template contains 'index' %}
+<style>
+     .container .one-third.column                { width: 380px; }
+ .container .one-third.column                { width: 300px; }
+
+        .container .one-third.column                { width: 236px; }
+.gallery-section {
+  text-align: center;
+
+  a {
+    display: block;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .two-per-row {
+    width: 50%;
+    @include respond-to('medium') {
+      width: 100%;
+    }
+  }
+
+  .three-per-row {
+    width: 33.333%;
+    @include respond-to('medium') {
+      width: 100%;
+    }
+  }
+
+  .four-per-row {
+    width: 25%;
+    @include respond-to('medium') {
+      width: 100%;
+    }
+  }
+
+  .gallery_image {
+    display: block;
+    float: left;
+  }
+
+  .add-padding {
+    padding: 10px;
+  }
+}
+</style>
+{%endif%}
+<section class="section">
+  <div class="container image-gallery">
+    <div class="one-third column medium-down--one-whole">
+      {% if block.settings.image_1 != blank %}
+        <a href="javascript:;" data-fancybox="{{ block.id }}" data-src="{{ block.settings.image_1 | img_url: '1520x' }}" rel="detail-gallery">
+          {% render 'image-element',
+                  image: block.settings.image_1,
+                  alt: block.settings.image_1.alt
+          %}
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+    <div class="one-third column medium-down--one-whole">
+      {% if block.settings.image_2 != blank %}
+        <a href="javascript:;" data-fancybox="{{ block.id }}" data-src="{{ block.settings.image_2 | img_url: '1520x' }}" rel="detail-gallery">
+          {% render 'image-element',
+                  image: block.settings.image_2,
+                  alt: block.settings.image_2.alt
+          %}
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+    <div class="one-third column medium-down--one-whole">
+      {% if block.settings.image_3 != blank %}
+        <a href="javascript:;" data-fancybox="{{ block.id }}" data-src="{{ block.settings.image_3 | img_url: '1520x' }}" rel="detail-gallery">
+          {% render 'image-element',
+                  image: block.settings.image_3,
+                  alt: block.settings.image_3.alt
+          %}
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  </div>
+</section>

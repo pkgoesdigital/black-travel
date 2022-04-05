@@ -1,0 +1,52 @@
+<!-- Start of Afterpay assets -->
+<script type="application/javascript" src="https://static-us.afterpay.com/javascript/present-afterpay.js"></script>
+<script>
+  let amount = 0, priceSelector = "", locale = 'en_US';
+  let baseObserverConfig = { activated: true, isDecimalPrice: true };
+  let mutationObserver = null;
+  
+	{%case template.name%} 
+      {%when "product"%}
+  		amount = {{product.selected_or_first_available_variant.price | json}}; 
+        priceSelector = ".modal_price:nth-child(3)";
+	    mutationObserver = { 
+            ...baseObserverConfig, 
+			targetPriceSelector: '.modal_price:nth-child(3) .money',
+		};
+        
+      {%when "cart"%}     
+        amount = {{cart.total_price | json}}; 
+        priceSelector = "strong > .money";
+  {%endcase%}
+
+const apConfig = {
+  afterpayLogoColor: 'color',
+  priceSelector, locale, amount,
+  showUpperLimit: false,
+  mutationObserver
+};
+  
+window.addEventListener("load",function(){
+  new presentAfterpay(apConfig).init();
+})
+</script>
+
+<style type="text/css">
+  .afterpay-logo {
+    width: 5.5em !important;
+    height: auto !important;
+  }
+  .afterpay-paragraph {
+    font-size: 0.9em;
+    margin-bottom: 18px !important;
+  }
+  {%case template.name%} 
+  	{%when "cart"%}
+
+  	{%when "product"%}
+		.afterpay-paragraph {
+			margin-top: -11px;
+      	}  		
+  {%endcase%}
+</style>
+<!-- End of Afterpay assets -->

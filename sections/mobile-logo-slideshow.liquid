@@ -1,0 +1,127 @@
+{% comment %}
+** Slideshow - dynamic **
+- Draggable section
+- Uses blocks
+{% endcomment %}
+
+{% comment %} Content settings {% endcomment %}
+{%- assign blocks = section.blocks -%}
+{% comment %} End content settings {% endcomment %}
+
+
+{% if blocks.size > 0 %}
+  <section class="is-visible--mobile is-hidden-desktop-only is-hidden-large section is-width-wide has-no-side-gutter">
+    <div class="container">
+      {% if section.settings.title != blank %}
+        <div class="one-whole column">
+          <h2 class="title center">{{ section.settings.title }}</h2>
+          <div class="feature_divider"></div>
+        </div>
+      {% endif %}
+      <div class="one-whole column">
+        <div id="homepage_slider-{{ section.id }}" class="flexslider homepage_slider animation--fade slider-loading mobile-parallax-enabled--{{ settings.enable_mobile_parallax }} mobile-image-crop-enabled--{{ settings.slideshow_images_crop }}" data-slider-id="homepage_slider-{{ section.id }}" data-slideshow-animation="fade" data-slideshow-speed="{{ section.settings.slideshow_speed }}">
+          <ul class="slides">
+            {% for block in blocks %}
+              {% comment %} Content settings {% endcomment %}
+              {%- assign image = block.settings.image -%}
+              {% comment %} End content settings {% endcomment %}
+
+              {%- assign text_position = block.settings.text_position | split: ' ' -%}
+
+              <li {{ block.shopify_attributes }} data-block-id="{{ block.id }}">
+                <div id="slider-{{ block.id }}" class="slide">
+          
+
+                  {% capture i %}{% cycle "1", "2" %}{% endcapture %}
+               
+                    <div class="banner__wrap">
+             
+                      {% if block.settings.image != blank %}
+                        
+                         <div class="banner__image-wrapper" style="padding-bottom: 30px;">
+                          {% render 'image-element',
+                                  image: block.settings.image,
+                                  alt: block.settings.image.alt
+                          %}
+                        </div>
+                      {% else %}
+                        <img src="{{ 'placeholder.svg' | asset_url }}"/>
+                      {% endif %}
+                    </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+
+
+{% schema %}
+  {
+    "name": "Mobile Logo Slideshow",
+    "class": "shopify-section--slideshow under-menu jsSlideshow parallax-banner",
+    "max_blocks": 12,
+    "settings": [
+      {
+        "type": "range",
+        "id": "slideshow_speed",
+        "label": "Change slides every",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "default": 6,
+        "unit": "sec"
+      },
+      {
+        "type": "header",
+        "content": "Mobile Logo Slideshow"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Logo list"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "600 x 200 with logo centered inside at width of 500 recommended"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Mobile Logo Slideshow",
+      "category": "Image",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "image": ""
+          }
+        },
+        {
+          "type": "image",
+            "settings": {
+            "image": ""
+          }
+        }
+      ]
+    }]
+  }
+{% endschema %}
+
+<script data-theme-editor-load-script src="{{ 'jsSlideshow.js' | asset_url }}" defer></script>
