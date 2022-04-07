@@ -331,11 +331,11 @@
   {%- assign locale_selector = true -%}
 {%- endif -%}
 
+<!-- header-transparency--{{ settings.transparent_header }}
+header-text-shadow--{{ settings.header_text_shadow }} -->
 <div class="header
             header-dropdown-position--{{ section.settings.dropdown_position }}
             header-background--{{ settings.header_background }}
-            header-transparency--{{ settings.transparent_header }}
-            header-text-shadow--{{ settings.header_text_shadow }}
             sticky-header--{{ section.settings.fixed_header }}
             {% if section.settings.fixed_header %}
               mm-fixed-top
@@ -406,7 +406,7 @@
             {% endfor %}
 
             <li class="header__nav-item sub-menu" aria-haspopup="true" aria-expanded="false" data-header-nav-item>
-              <a href="{{ link.url }}" class="dropdown-link {% if link.active or link.child_active %}active{% endif %}">{{ link.title }}
+              <a href="{{ link.url }}" class="dropdown-link{% if link.active or link.child_active %}active{% endif %}">{{ link.title }}
                 <span class="icon-arrow-down"></span></a>
                 <div class="dropdown animated fadeIn {% if count > column_threshold %}dropdown-wide {% if forloop.last %}dropdown-left{% endif %}{% endif %}">
                   <div class="dropdown-links">
